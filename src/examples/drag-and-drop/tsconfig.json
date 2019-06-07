@@ -2,7 +2,9 @@
 	"compilerOptions": {
 		"module": "none",
 		"target": "es5",
+		"removeComments": true,
 		"sourceMap": true,
 		"outFile": "./app.js"
-	}
+	},
+	"compileOnSave": true
 }

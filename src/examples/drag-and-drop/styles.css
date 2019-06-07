@@ -1,0 +1,49 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+.draggable {
+	cursor: pointer;
+}
+.dragging-effect {
+	background-color: lightblue;
+}
+.section-hover {
+	background-color: #f7eff0;
+}
+.side-picker--teams, .side-picker--bench {
+	display: flex;
+	flex-direction: row; 
+	justify-content: flex-start; 
+	align-items: flex-start;
+	width: 50%;
+}
+.side-picker--bench {
+	align-items: center;
+}
+.side-picker--teams section, .side-picker--bench section {
+	width: 50%;
+	border: solid 1px #eee;
+	/* maintain same height even when section is empty */
+	min-height: 100px;
+}
+.side-picker--teams section header, .side-picker--bench section header {
+	position: relative;
+	left: 50%;
+	margin-left: auto;
+}
+ol.side-picker--players li {
+	list-style-type: none;
+	display: inline-block;
+	width: 20%;
+	height: 50px;
+}
+
+/*watermark*/
+__section.team header {
+	position: relative;
+	top: 40%; left: 40%;
+	opacity: 0.5;
+	font-size: 2em;
+	z-index: -1;
+}
+

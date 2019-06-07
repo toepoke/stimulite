@@ -1,0 +1,71 @@
+
+
+body {
+  background-color: black;
+  color: white;
+}
+.hide {
+	visibility: hidden;
+}
+
+.slides {
+	/* Full side */
+	position: fixed;
+	/* 100% height - https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window */	
+	top: 0px; left: 0px; right: 0px; bottom: 0%;
+	/* Just raises the centre slide up a bit */
+	margin-bottom: 5%;
+	
+	/*invisble test*/
+	border: solid 2px white;
+	opacity: 0.1;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.slideshow {
+  font-family: Impact;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;  
+  margin: 0; padding: 0;
+}
+
+.slide {
+	/* 
+		Force each slide into the center middle.
+		As we can't animation "display:none" we have to use visibility, which means the div still takes up 
+		space on the page.  Basically each slide appears in the wrong place, unless we force each slide to the middle.
+	*/
+	position: absolute;
+	border: solid 10px silver;
+}
+
+.slide1 { animation: zoomIn 3s; }
+.slide2 { animation: zoomIn 3s; animation-delay: 3s;  }
+.slide3 { animation: zoomIn 3s; animation-delay: 6s;  }
+.slide4 { animation: zoomIn 3s; animation-delay: 9s;  }
+.slide5 { animation: zoomIn 3s; animation-delay: 12s; }
+
+
+.slideshow .intro h1 {
+  font-size: 5em;
+}
+.slideshow .stats h1 {
+	font-size: 3em;
+}
+
+
+@keyframes zoomIn {
+	0% {
+		visibility: visible;
+		-webkit-transform: scale(500); 
+	}
+	50% { 
+		-webkit-transform: scale(1);
+	}
+	100% {		
+		visibility: hidden;
+	}
+}

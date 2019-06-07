@@ -1,4 +1,4 @@
-/// <reference path="./src/stimulite.ts" />
+/// <reference path="../../stimulite/stimulite.ts" />
 
 class SidePickerController extends Controller {
 	constructor(name: string, application: Application, element: Element) {
@@ -100,9 +100,9 @@ class SidePickerController extends Controller {
 	 * Fired when a player is moved over a given drop area (aka Team block).
 	 * @param e - Event associated with the move.
 	 */
-	private onDragOver(e: Event): void {
+	private onDragOver(e: Event): void {		
 		this.cancelDefaultAction(e);
-		e.currentTarget.classList.add("section-hover");
+		(e.currentTarget as HTMLDivElement).classList.add("section-hover");
 	}
 
 
@@ -112,7 +112,7 @@ class SidePickerController extends Controller {
 	 */
 	private onDragLeave(e: Event): void {
 		this.cancelDefaultAction(e);
-		e.currentTarget.classList.remove("section-hover");
+		(e.currentTarget as HTMLDivElement).classList.remove("section-hover");
 	}
 
 

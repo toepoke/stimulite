@@ -1,0 +1,11 @@
+{ 
+	"compilerOptions": {
+		"module": "none",
+		"target": "es5",
+		"removeComments": true,
+		"sourceMap": true,
+		"outDir": "../../dist/",
+		"outFile": "../../dist/stimulite.js"
+	},
+	"compileOnSave": true
+}

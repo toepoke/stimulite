@@ -8,3 +8,6 @@ https://www.html5rocks.com/en/tutorials/dnd/basics/
 https://medium.com/backticks-tildes/drag-and-drop-with-html5-368a1bb72881
 
 https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition
+
+
+java -jar ..\tools\closure\closure-compiler.jar app.js --source_map_input=app.js\|app.js.map --create_source_map app-compiled.js.map  --js_output_file app-compiled.js
