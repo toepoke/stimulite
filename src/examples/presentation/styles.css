@@ -4,32 +4,37 @@ body {
   background-color: black;
   color: white;
 }
-.hide {
-	visibility: hidden;
-}
 
-.slides {
+.full-slide {
 	/* Full side */
 	position: fixed;
 	/* 100% height - https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window */	
 	top: 0px; left: 0px; right: 0px; bottom: 0%;
 	/* Just raises the centre slide up a bit */
 	margin-bottom: 5%;
-	
-	/*invisble test*/
-	border: solid 2px white;
-	opacity: 0.1;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
+
+.slides {
+	/*invisble test*/
+	xxborder: solid 2px white;
+	opacity: 0.15;
+}	
+
 
 .slideshow {
   font-family: Impact;
   text-transform: uppercase;
   letter-spacing: 0.5em;  
   margin: 0; padding: 0;
+}
+.stats-slide h1 { font-size: 2em; text-align: center; }
+
+.flex__row {
+	display: flex;
+	align-items: center;
+}
+.flex__col {
+	flex: 50%;
 }
 
 .slide {
@@ -38,34 +43,64 @@ body {
 		As we can't animation "display:none" we have to use visibility, which means the div still takes up 
 		space on the page.  Basically each slide appears in the wrong place, unless we force each slide to the middle.
 	*/
-	position: absolute;
-	border: solid 10px silver;
+	xxposition: absolute;
+	xxborder: solid 10px silver;
+	
 }
 
-.slide1 { animation: zoomIn 3s; }
-.slide2 { animation: zoomIn 3s; animation-delay: 3s;  }
-.slide3 { animation: zoomIn 3s; animation-delay: 6s;  }
-.slide4 { animation: zoomIn 3s; animation-delay: 9s;  }
-.slide5 { animation: zoomIn 3s; animation-delay: 12s; }
-
-
-.slideshow .intro h1 {
-  font-size: 5em;
-}
-.slideshow .stats h1 {
-	font-size: 3em;
+.intro-slide h1 { 
+	font-size: 5em; 
+	text-align: center;
+	/* set width so length of heading is predicable for centering in the screen */
+	width: 500px;
 }
 
+.slide1, .slide2, .slide3, .slide4 {
+	position: fixed;
+	top: 20%;
+	left: 35%;
+	visibility: hidden;
+}
 
-@keyframes zoomIn {
+.slide1 { animation: zoomin__leave 3s; animation-delay: 0s; animation-fill-mode: backwards; visibility: hidden; }
+.slide2 { animation: zoomin__leave 3s; animation-delay: 3s; animation-fill-mode: backwards; visibility: hidden; }
+.slide3 { animation: zoomin__leave 3s; animation-delay: 6s; animation-fill-mode: backwards; visibility: hidden; }
+.slide4 { animation: zoomin__leave 3s; animation-delay: 9s; animation-fill-mode: backwards; visibility: hidden; }
+
+
+@keyframes zoomin__leave {
 	0% {
-		visibility: visible;
 		-webkit-transform: scale(500); 
-	}
-	50% { 
-		-webkit-transform: scale(1);
-	}
-	100% {		
 		visibility: hidden;
 	}
+	50% {
+		visibility: visible;
+		-webkit-transform: scale(1);
+	}
 }
+
+
+
+.stats-slide img {
+	display: inherit;
+	margin: auto;
+}
+
+.slide5 { animation: zoomin__remain 3s; animation-delay: 12s; animation-fill-mode: forwards; visibility: hidden; }
+.slide6 { animation: zoomin__remain 3s; animation-delay: 15s; animation-fill-mode: forwards; visibility: hidden; }
+.slide7 { animation: zoomin__remain 3s; animation-delay: 18s; animation-fill-mode: forwards; visibility: hidden; }
+.slide8 { animation: zoomin__remain 3s; animation-delay: 21s; animation-fill-mode: forwards; visibility: hidden; }
+
+@keyframes zoomin__remain {
+	0% {
+		-webkit-transform: scale(500); 
+		visibility: hidden;
+		opacity: 0.5;
+	}
+	100% { 
+		visibility: visible;
+		-webkit-transform: scale(1);
+		opacity: 1;
+	}
+}
+
