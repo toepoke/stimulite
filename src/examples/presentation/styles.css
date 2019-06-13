@@ -2,16 +2,9 @@
 
 body {
   background-color: black;
-  color: white;
-}
-
-.full-slide {
-	/* Full side */
-	position: fixed;
-	/* 100% height - https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window */	
-	top: 0px; left: 0px; right: 0px; bottom: 0%;
-	/* Just raises the centre slide up a bit */
-	margin-bottom: 5%;
+	color: white;
+	overflow-x: hidden;
+	overflow-y: hidden;	
 }
 
 .slides {
@@ -24,11 +17,8 @@ body {
 .slideshow {
   font-family: Impact;
   text-transform: uppercase;
-  letter-spacing: 0.5em;  
-  margin: 0; padding: 0;
+	margin: 0; padding: 0;
 }
-.stats-slide h1 { font-size: 2em; text-align: center; }
-
 .flex__row {
 	display: flex;
 	align-items: center;
@@ -45,20 +35,26 @@ body {
 	*/
 	xxposition: absolute;
 	xxborder: solid 10px silver;
-	
+}
+
+.intro-slide {
+	width: 100%;
 }
 
 .intro-slide h1 { 
-	font-size: 5em; 
+	font-size: 7em; 
 	text-align: center;
 	/* set width so length of heading is predicable for centering in the screen */
-	width: 500px;
+	width: 100%;
+  letter-spacing: 0.4em;
 }
 
 .slide1, .slide2, .slide3, .slide4 {
 	position: fixed;
 	top: 20%;
-	left: 35%;
+	left: 0;
+	width: 100%;
+	text-align: center;
 	visibility: hidden;
 }
 
@@ -70,7 +66,7 @@ body {
 
 @keyframes zoomin__leave {
 	0% {
-		-webkit-transform: scale(500); 
+		-webkit-transform: scale(100); 
 		visibility: hidden;
 	}
 	50% {
@@ -80,6 +76,12 @@ body {
 }
 
 
+
+.stats-slide h1 { 
+	font-size: 2em;
+	text-align: center; 
+  letter-spacing: 0.25em;
+}
 
 .stats-slide img {
 	display: inherit;
