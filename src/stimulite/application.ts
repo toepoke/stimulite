@@ -5,10 +5,10 @@
  * In effect, the application is the page on which all controllers reside.
  */
 class Application {
-	private _window: Window;
-	private _element: Element;
-	private _controllers: Array<Controller>;
-	private _debugOn: boolean = false;
+	protected _window: Window;
+	protected _element: Element;
+	protected _controllers: Array<Controller>;
+	protected _debugOn: boolean = false;
 
 	/**
 	 * Application constructor
@@ -22,6 +22,10 @@ class Application {
 		this._debugOn = debugOn;
 		this.FindControllers();
 		this.ConnectionComplete();
+	}
+
+	public get Window(): Window {
+		return this._window;
 	}
 
 	/**

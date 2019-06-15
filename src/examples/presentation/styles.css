@@ -7,10 +7,29 @@ body {
 	overflow-y: hidden;	
 }
 
+.close-presentation {
+	display: none;
+}
+.close-presentation-button {
+	position: fixed;
+  right: 1em;
+  top: 1em;
+  color: #fff;
+  border: solid 2px #fff;
+  border-radius: 100%;
+  background-color: #000;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: arial;
+	padding: 0 0.25em 0 0.25em;
+	cursor: pointer;
+	z-index: 10100;
+}
+
 .slides {
 	/*invisble test*/
 	xxborder: solid 2px white;
-	opacity: 0.15;
+	xxopacity: 0.15;
 }	
 
 
@@ -18,6 +37,12 @@ body {
   font-family: Impact;
   text-transform: uppercase;
 	margin: 0; padding: 0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #222;
 }
 .flex__row {
 	display: flex;
@@ -42,23 +67,23 @@ body {
 }
 
 .intro-slide h1 { 
-	font-size: 7em; 
+	font-size: 10em; 
 	text-align: center;
 	/* set width so length of heading is predicable for centering in the screen */
 	width: 100%;
-  letter-spacing: 0.4em;
+  xxletter-spacing: 0.4em;
 }
 
 .intro-slide .slide {
 	position: fixed;
-	top: 20%;
+	xxtop: 20%;
 	left: 0;
 	width: 100%;
 	text-align: center;
 	visibility: hidden;
 }
 
-@media all and (min-width: 839px) {
+@media all and (min-width: 0px) and (max-width: 800px) {
 	
 	.intro-slide .slide {
 		top: 30%;
@@ -82,7 +107,6 @@ body {
 .slide1 { animation: zoomin__leave 3s; animation-delay: 0s; animation-fill-mode: backwards; visibility: hidden; }
 .slide2 { animation: zoomin__leave 3s; animation-delay: 3s; animation-fill-mode: backwards; visibility: hidden; }
 .slide3 { animation: zoomin__leave 3s; animation-delay: 6s; animation-fill-mode: backwards; visibility: hidden; }
-.slide4 { animation: zoomin__leave 3s; animation-delay: 9s; animation-fill-mode: backwards; visibility: hidden; }
 
 
 @keyframes zoomin__leave {
@@ -97,22 +121,47 @@ body {
 }
 
 
+.xstats-slide { display: none; }
 
 .stats-slide h1 { 
 	font-size: 2em;
 	text-align: center; 
-  letter-spacing: 0.25em;
+	margin: 0;
+	padding: 0;
 }
+
+.stats-slide h1.top {
+	/* shift heading to just over the top of the image */
+	position: relative;
+	top: 0.5em;
+} 
+
+.stats-slide h1.bot {
+	/* shift heading to just over the top of the image */
+	position: relative;
+	top: -0.5em;
+} 
+
+.stats-slide h1.top, .stats-slide h1.bot {
+	/* make heading nice */
+	background-color: #F45D4C;
+	font-weight: normal;
+	display: inline-block;
+	text-align: center;
+	width: 50%;
+	left: 25%;	
+}
+
 
 .stats-slide img {
 	display: inherit;
 	margin: auto;
 }
 
-.slide5 { animation: zoomin__remain 3s; animation-delay: 12s; animation-fill-mode: forwards; visibility: hidden; }
-.slide6 { animation: zoomin__remain 3s; animation-delay: 15s; animation-fill-mode: forwards; visibility: hidden; }
-.slide7 { animation: zoomin__remain 3s; animation-delay: 18s; animation-fill-mode: forwards; visibility: hidden; }
-.slide8 { animation: zoomin__remain 3s; animation-delay: 21s; animation-fill-mode: forwards; visibility: hidden; }
+.slide5 { animation: zoomin__remain 3s; animation-delay: 10s; animation-fill-mode: forwards; visibility: hidden; }
+.slide6 { animation: zoomin__remain 3s; animation-delay: 13s; animation-fill-mode: forwards; visibility: hidden; }
+.slide7 { animation: zoomin__remain 3s; animation-delay: 16s; animation-fill-mode: forwards; visibility: hidden; }
+.slide8 { animation: zoomin__remain 3s; animation-delay: 19s; animation-fill-mode: forwards; visibility: hidden; }
 
 @keyframes zoomin__remain {
 	0% {

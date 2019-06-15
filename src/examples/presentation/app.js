@@ -16,6 +16,13 @@ var Application = (function () {
         this.FindControllers();
         this.ConnectionComplete();
     }
+    Object.defineProperty(Application.prototype, "Window", {
+        get: function () {
+            return this._window;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Application.prototype.BroadcastEvent = function (evt) {
         for (var _i = 0, _a = this._controllers; _i < _a.length; _i++) {
             var ctrl = _a[_i];
@@ -84,9 +91,12 @@ var Application = (function () {
     return Application;
 }());
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -102,26 +112,37 @@ var SeasonGalleryController = (function (_super) {
     }
     SeasonGalleryController.prototype.Connect = function () {
         this._application.warn("Connect!");
+        this.wireUpSounds();
     };
     SeasonGalleryController.prototype.Disconnect = function () {
     };
     SeasonGalleryController.prototype.Subscription = function (evt) {
     };
-    SeasonGalleryController.prototype.addAnimatron = function () {
+    SeasonGalleryController.prototype.wireUpSounds = function () {
         var _this = this;
-        var slides = this._element.querySelectorAll("[data-slide-id]");
+        var slides = this._element.querySelectorAll(".slide");
+        var sounds = this._element.getElementsByTagName("audio");
+        var woosh = sounds[0];
+        this._element.querySelector(".close-presentation-button").addEventListener("click", function (e) {
+            _this.closePresentation();
+        });
+        this._application.Window.addEventListener("keyup", function (e) {
+            if (e.keyCode === 27) {
+                _this.closePresentation();
+            }
+        });
         for (var i = 0; i < slides.length; i++) {
             var slide = slides[i];
-            slide.addEventListener("animationend", function (e) { return _this.slideEnd(e); });
+            slide.addEventListener("animationstart", function (e) { return _this.play(woosh); });
         }
     };
-    SeasonGalleryController.prototype.slideEnd = function (e) {
-        var currSlide = e.srcElement;
-        var nextSlide = currSlide.nextElementSibling;
-        currSlide.classList.remove("zoom-in");
-        currSlide.classList.add("hide");
-        nextSlide.classList.remove("hide");
-        nextSlide.classList.add("zoom-in");
+    SeasonGalleryController.prototype.closePresentation = function () {
+        this._element.classList.add("close-presentation");
+    };
+    SeasonGalleryController.prototype.play = function (mp3) {
+        if (mp3 !== undefined) {
+            var promise = mp3.play();
+        }
     };
     return SeasonGalleryController;
 }(Controller));
