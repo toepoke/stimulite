@@ -1,15 +1,68 @@
 /// <reference path="../../stimulite/stimulite.ts" />
 
+class Player {
+	private _controller: SidePickerController = null;
+	private _doc: Document = null;
+	private _ele: Element = null;
+	private _id: number = null;
+
+	constructor(element: Element, ctrl: SidePickerController) {
+		this._ele = element;
+		this._id = parseInt(element.getAttribute("data-player-id"), 10);
+		this._controller = ctrl;
+		this._doc = this._controller.Document;
+		this.addTeamSelectButtons();
+	}
+
+	private addTeamSelectButtons(): void {
+		const teamId: string = this._ele.parentElement.getAttribute("data-team-id");
+
+		this._ele.appendChild( this.createTeamSwapButton("side-1", "W", (teamId !== "side-1")) );
+		this._ele.appendChild( this.createTeamSwapButton("side-2", "C", (teamId !== "side-2")) );
+		this._ele.appendChild( this.createTeamSwapButton("side-0", "B", (teamId !== "side-0")) );
+	}	
+
+	private createTeamSwapButton(teamId: string, text: string, initiallyOn: boolean): Element {
+		const initialDisplay: string = (initiallyOn ? "show" : "hide");
+		let button = this._doc.createElement("button");
+		
+
+		button.innerHTML = text;
+		button.setAttribute("data-team-id", teamId);
+		button.classList.add("team-picker-button", initialDisplay);
+
+		button.addEventListener("click", (e: Event) => this._controller.onTeamPick(e, button));
+
+		return button;
+	}
+
+}
+
 class SidePickerController extends Controller {
+	private _players: NodeListOf<Element> = null;
+	private _doc: Document = null;
+
 	constructor(name: string, application: Application, element: Element) {
 		super(name, application, element);
+		this._doc = application.Window.document;
+	}
+
+	public get Document(): Document {
+		return this._doc;
 	}
 
 	public Connect(): void {
 		this._application.warn("Connect!");		
 
+		this._players = this._element.querySelectorAll("[data-player-id]");
+		for (let i=0; i < this._players.length; i++) {
+			const playerNode = this._players[i];
+			// @ts-ignore
+			playerNode.item = new Player(playerNode, this);
+		}
+		
 		this.addDraggables();
-		this.addDropZones();
+		this.addDropZones();		
 	}
 
 	public Disconnect(): void {
@@ -20,18 +73,39 @@ class SidePickerController extends Controller {
 		this._application.log("received", evt);
 	}
 
+	onTeamPick(e: Event, button: Element): void {
+		let sourceElement: Element = (<Element>e.srcElement);
+		let targetTeamId: string = sourceElement.getAttribute("data-team-id");
 
+		// find the team list we're moving to
+		let targetTeam: Element = this._element.querySelector(`ol[data-team-id=${targetTeamId}]`);
+		let player: Element = sourceElement.parentElement;
+		
+		// Move the player to the new team
+		targetTeam.append(player);
+
+		// As we've moved team the buttons are out of whack (e.g. whites button is available, but we're now on whites)
+		let navButtons: NodeListOf<Element> = player.querySelectorAll("button");
+		for (let i=0; i < navButtons.length; i++) {
+			const nav: Element = navButtons[i];
+
+			if (nav.getAttribute("data-team-id") === targetTeamId) {
+				nav.classList.add("hide");
+				nav.classList.remove("show");
+			} else {
+				nav.classList.add("show");
+				nav.classList.remove("hide");
+			}
+		}
+	}
 
 	/**
 	 * Identifier player objects and wire them up to be draggable objects.
 	 */
 	private addDraggables(): void {
-		
-
-		var i = 0;
 		// attach events to draggable nodes
-		const draggables: NodeListOf<Element> = this._element.querySelectorAll("[data-player-id]");
-		for (i=0; i < draggables.length; i++) {
+		const draggables: NodeListOf<Element> = this._players;
+		for (let i=0; i < draggables.length; i++) {
 			const ele: Element = draggables[i];
 
 			// Flag that the player can be dragged to other team blocks
@@ -177,6 +251,10 @@ class SidePickerController extends Controller {
 
 	} // onDrop
 
+
+	// Experiment with adding a [W]hites, [C]olours and [B]ench buttons to each player and using
+	// those to move (with nice animation) to the relevant team.
+	// Going further hide the irrelevant button (i.e. if you're on Colours, you don't need the colours button)
 
 	private sequenceTeamPlayers(teamNode: Element): void {
 		const playerNotes: NodeListOf<Element> = teamNode.querySelectorAll("LI");
