@@ -12,6 +12,14 @@ class Player {
 		this._controller = ctrl;
 		this._doc = this._controller.Document;
 		this.addTeamSelectButtons();
+
+		let currentBG: string;
+		element.addEventListener("transitionstart", (e: Event) => {
+			(e.currentTarget as HTMLDivElement).style.opacity = "0.5";
+		});
+		element.addEventListener("transitionend", (e: Event) => {
+			(e.currentTarget as HTMLDivElement).style.opacity = "1";
+		});
 	}
 
 	private addTeamSelectButtons(): void {
@@ -44,7 +52,7 @@ class SidePickerController extends Controller {
 
 	constructor(name: string, application: Application, element: Element) {
 		super(name, application, element);
-		this._doc = application.Window.document;
+		this._doc = application.Window.document;		
 	}
 
 	public get Document(): Document {
@@ -78,11 +86,30 @@ class SidePickerController extends Controller {
 		let targetTeamId: string = sourceElement.getAttribute("data-team-id");
 
 		// find the team list we're moving to
-		let targetTeam: Element = this._element.querySelector(`ol[data-team-id=${targetTeamId}]`);
-		let player: Element = sourceElement.parentElement;
-		
+		let targetTeam = this._element.querySelector<HTMLElement>(`ol[data-team-id=${targetTeamId}]`);
+		let player: HTMLElement = sourceElement.parentElement;
+
 		// Move the player to the new team
+		const before = player.getBoundingClientRect();
 		targetTeam.append(player);
+		const after = player.getBoundingClientRect();
+
+		const deltaX = before.left - after.left;
+		const deltaY = before.top - after.top;
+
+		let w: Window = this._application.Window;
+		let bg = player.style.backgroundColor;
+		w.requestAnimationFrame( () => {
+			console.log("frame");
+			player.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+			player.style.transition = 'transform 0s';
+
+			w.requestAnimationFrame( () => {
+				player.style.transform = '';
+				player.style.transition = 'transform 500ms';
+			});
+
+		});
 
 		// As we've moved team the buttons are out of whack (e.g. whites button is available, but we're now on whites)
 		let navButtons: NodeListOf<Element> = player.querySelectorAll("button");
@@ -97,7 +124,8 @@ class SidePickerController extends Controller {
 				nav.classList.remove("hide");
 			}
 		}
-	}
+
+	} // onTeamPick
 
 	/**
 	 * Identifier player objects and wire them up to be draggable objects.
@@ -116,7 +144,7 @@ class SidePickerController extends Controller {
 			ele.addEventListener("dragend", (e: Event) => this.onDragEnd(ele));
 
 			// TODO: Modal for mobile support, to swap teams around (i.e. buttons for Team A, Team B and Bench)
-			ele.addEventListener("click", (e: Event) => this._application.log("click",e));
+			//ele.addEventListener("click", (e: Event) => this._application.log("click",e));
 		}
 
 	} // addDraggables
