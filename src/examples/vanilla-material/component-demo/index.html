@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://unpkg.com/material-components-web@2.3.1/dist/material-components-web.min.css" />
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css"/>
+	<link rel="stylesheet" href="../dark.css">
+	<style>
+		.my-button.call-to-action {
+			background-color: plum;
+		}
+
+		.tab-content, .hide {
+			display: none;
+		}
+		
+		.tab-content--active, .show {
+			display: block;
+		}
+	</style>	
+</head>
+<body class="mdc-typography">
+
+	<!--
+		For required classes, see:
+		https://material.io/develop/web/components/buttons/
+	-->
+
+	<div data-controller="material-examples">
+
+		<!-- 
+			BUTTONS 
+			See - https://github.com/material-components/material-components-web/tree/master/packages/mdc-button		
+		-->
+		<h2 class="mdc-typography--subtitle1">Buttons</h2>
+		<button type="button" class="mdc-button" mdl-button>Default</button>
+
+		<button type="button" class="mdc-button mdc-button--raised" mdl-button>Filled (raised)</button>
+		<button type="button" class="mdc-button mdc-button--unelevated" mdl-button>Filled (flush)</button>
+		<button type="button" class="mdc-button mdc-button--outlined" mdl-button>Outlined</button>
+		<button type="button" class="mdc-button mdc-button--dense" mdl-button>Dense</button>
+		<button type="button" class="mdc-button mdc-button" disabled>disabled</button>
+		<button type="button" class="mdc-button mdc-theme--secondary-bg mdc-theme--on-secondary" mdl-button>Secondary</button>
+
+		<h2 class="mdc-typography--subtitle1">Buttons with icons</h2>
+		<button class="mdc-button" mdl-button>
+			<i class="material-icons mdc-button__icon" aria-hidden="true">home</i>
+			<span class="mdc-button__label">Before</span>
+		</button>		
+		<button class="mdc-button">
+			<span class="mdc-button__label">After</span>
+			<i class="material-icons mdc-button__icon" aria-hidden="true">favorite</i>
+		</button>	
+		<button class="mdc-button">
+			<i class="material-icons mdc-button__icon" aria-hidden="true">home</i>
+			<span class="mdc-button__label">Both</span>
+			<i class="material-icons mdc-button__icon" aria-hidden="true">favorite</i>
+		</button>	
+
+
+		<!-- 
+			BUTTONS 
+			See - https://github.com/material-components/material-components-web/tree/master/packages/mdc-card
+		-->
+		<h2 class="mdc-typography--subtitle1">Cards</h2>
+		<div class="mdc-card mdc-card--outlined">
+			<p>Aye up!</p>
+		</div>		
+
+
+		<!-- TEXT FIELD -->
+		<h2 class="mdc-typography--subtitle1">TextField Directive</h2>
+    <div class="mdc-text-field username" data-mdc-auto-init="MDCTextField">
+      <input type="text" class="mdc-text-field__input" id="username-input" required>
+      <label class="mdc-floating-label" for="username-input">Username</label>
+      <div class="mdc-line-ripple"></div>
+    </div>
+
+		<!-- TABS -->
+
+	</div>
+
+	<!-- <script src="https://unpkg.com/material-components-web@2.3.1/dist/material-components-web.js"></script> -->
+	<script src="https://unpkg.com/material-components-web@2.3.1/dist/material-components-web.min.js"></script>
+	
+	<script src="../../../../dist/stimulite.js"></script>
+	<script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://unpkg.com/material-components-web@2.3.1/dist/material-components-web.min.css" />
+	<link rel="stylesheet" href="../dark.css">
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+	<style>
+		.tab-content, .hide {
+			display: none;
+		}
+		
+		.tab-content--active, .show {
+			display: block;
+		}
+		.mat-tab-header,.mat-tab-nav-bar {
+			border-bottom: 1px solid rgba(0,0,0,.12);
+			margin-bottom: .25em;
+		}
+
+		
+		.mdc-tab .mdc-tab__text-label {
+			/*
+				Tabs labels aren't part of the material theming, would have to do them separately
+			*/
+			xxcolor: #222;
+		}
+	</style>	
+</head>
+<body class="mdc-typography">
+
+	<!--
+		For required classes, see:
+		https://material.io/develop/web/components/buttons/
+	-->
+
+	<div data-controller="tab-demo">
+
+		<h2 class="mdc-typography--subtitle1">Material Tabs Demo</h2>
+
+		<!-- TABS -->
+		<div class="mdc-tab-bar mdc-tab-header mdc-theme--black" role="tablist">
+			<div class="mdc-tab-scroller">
+				<div class="mdc-tab-scroller__scroll-area">
+					<div class="mdc-tab-scroller__scroll-content">
+
+						<button class="mdc-tab" role="tab" aria-selected="true" tabindex="0">
+							<span class="mdc-tab__content">
+								<span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
+								<span class="mdc-tab__text-label">Favorites</span>
+							</span>
+							<span class="mdc-tab-indicator">
+								<span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+							</span>
+							<span class="mdc-tab__ripple"></span>
+						</button>
+
+						<button class="mdc-tab" role="tab" aria-selected="true" tabindex="0">
+							<span class="mdc-tab__content">
+								<span class="mdc-tab__icon material-icons" aria-hidden="true">near_me</span>
+								<span class="mdc-tab__text-label">Nearby</span>
+							</span>
+							<span class="mdc-tab-indicator">
+								<span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+							</span>
+							<span class="mdc-tab__ripple"></span>
+						</button>
+
+						<button class="mdc-tab" role="tab" aria-selected="true" tabindex="0">
+							<span class="mdc-tab__content">
+								<span class="mdc-tab__icon material-icons" aria-hidden="true">access_time</span>
+								<span class="mdc-tab__text-label">Recents</span>
+							</span>
+							<span class="mdc-tab-indicator">
+								<span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+							</span>
+							<span class="mdc-tab__ripple"></span>
+						</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Tab Content -->
+		<div class="favourites tab-content tab-content--active">
+			<p>Favs!</p>
+		</div>
+		<div class="near-me tab-content">
+			<p>Near me ...</p>
+		</div>
+		<div class="recents tab-content">
+			<p>Recents</p>
+		</div>
+
+
+	</div>
+
+	<script src="https://unpkg.com/material-components-web@2.3.1/dist/material-components-web.min.js"></script>
+	
+	<script src="../../../../dist/stimulite.js"></script>
+	<script src="./app.js"></script>
+</body>
+</html>

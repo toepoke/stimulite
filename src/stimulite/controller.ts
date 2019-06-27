@@ -32,17 +32,23 @@ abstract class Controller {
 	 * Called when an event is broadcast through the application.
 	 * @param evt - Event that has been broadcast.
 	 */
-	public abstract Subscription(evt: ApplicationEvent): void;
+	public Subscription(evt: ApplicationEvent): void {
+		// Implement this in the subclass if you wish to recieve subscription events
+	}
 
 	/**
 	 * Called once the controller has been created and initialised (i.e. after it's constructor)
 	 * has been called.
 	 */
-	public abstract Connect(): void;
+	public Connect(): void {
+		// Implement this in the subclass if you wish to recieve connect events
+	}
 
 	/**
 	 * TODO: Not sure when this is called yet ...
 	 */
-	public abstract Disconnect(): void;
+	public Disconnect(): void {
+		// Implement this in the subclass if you wish to recieve disconnect events
+	}
 
 } // Controller

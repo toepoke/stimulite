@@ -106,9 +106,9 @@ class Application {
 		for (var i=0; i < ctrlDomNodes.length; i++) {
 			const ctrlDomNode = ctrlDomNodes[i];
 			const ctrlName = this.toControllerName(ctrlDomNode.getAttribute("data-controller"));
-
 			const application: Application = this;
 			const controller: Controller = new (<any>this._window)[ctrlName](ctrlName, application, ctrlDomNode);
+
 			this._controllers.push(controller);
 		}
 	}
@@ -126,8 +126,17 @@ class Application {
 			return match.toUpperCase();
 		});
 
-		ctrlName += "Controller";
+		if (!this.endsWith(ctrlName, "Controller")) {
+			ctrlName += "Controller";
+		}
+
 		return ctrlName;
+	}
+
+	private endsWith(value: string, search: string): boolean {
+		const len = (value === undefined ? 0 : value.length);
+
+		return value.substring(len - search.length, len) === search;
 	}
 
 }
