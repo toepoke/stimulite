@@ -284,10 +284,6 @@ class SidePickerController extends Controller {
 	} // onDrop
 
 
-	// Experiment with adding a [W]hites, [C]olours and [B]ench buttons to each player and using
-	// those to move (with nice animation) to the relevant team.
-	// Going further hide the irrelevant button (i.e. if you're on Colours, you don't need the colours button)
-
 	private sequenceTeamPlayers(teamNode: Element): void {
 		const playerNotes: NodeListOf<Element> = teamNode.querySelectorAll("LI");
 
