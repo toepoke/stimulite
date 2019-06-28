@@ -45,6 +45,9 @@ ol.side-picker--players li {
 	border: solid 1px #eee;
 }
 
+.team-picker-button {
+	cursor: pointer;
+}
 
 /*watermark*/
 __section.team header {

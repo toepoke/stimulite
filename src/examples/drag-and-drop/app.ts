@@ -13,7 +13,7 @@ class Player {
 		this._doc = this._controller.Document;
 		this.addTeamSelectButtons();
 
-		let currentBG: string;
+		// Noddy effect whilst the players are moving between teams (when buttons are used)
 		element.addEventListener("transitionstart", (e: Event) => {
 			(e.currentTarget as HTMLDivElement).style.opacity = "0.5";
 		});
@@ -97,6 +97,9 @@ class SidePickerController extends Controller {
 		const deltaX = before.left - after.left;
 		const deltaY = before.top - after.top;
 
+		// When a player button is clicked, this gives an animation showing the player
+		// being dragged across to it's new placing.  It's a bit funky what's happening, for details see:
+		// https://medium.com/developers-writing/animating-the-unanimatable-1346a5aab3cd
 		let w: Window = this._application.Window;
 		let bg = player.style.backgroundColor;
 		w.requestAnimationFrame( () => {
@@ -111,7 +114,8 @@ class SidePickerController extends Controller {
 
 		});
 
-		// As we've moved team the buttons are out of whack (e.g. whites button is available, but we're now on whites)
+		// As we've moved team the buttons are out of whack 
+		// (e.g. whites button is available, but we're now on whites)
 		let navButtons: NodeListOf<Element> = player.querySelectorAll("button");
 		for (let i=0; i < navButtons.length; i++) {
 			const nav: Element = navButtons[i];
