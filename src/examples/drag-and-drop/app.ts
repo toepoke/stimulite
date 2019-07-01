@@ -1,53 +1,22 @@
 /// <reference path="../../stimulite/stimulite.ts" />
+/// <reference path="./player.ts" />
 
-class Player {
+class Team {
 	private _controller: SidePickerController = null;
 	private _doc: Document = null;
 	private _ele: Element = null;
-	private _id: number = null;
+	private _teamName: string = null;
 
 	constructor(element: Element, ctrl: SidePickerController) {
 		this._ele = element;
-		this._id = parseInt(element.getAttribute("data-player-id"), 10);
-		this._controller = ctrl;
-		this._doc = this._controller.Document;
-		this.addTeamSelectButtons();
-
-		// Noddy effect whilst the players are moving between teams (when buttons are used)
-		element.addEventListener("transitionstart", (e: Event) => {
-			(e.currentTarget as HTMLDivElement).style.opacity = "0.5";
-		});
-		element.addEventListener("transitionend", (e: Event) => {
-			(e.currentTarget as HTMLDivElement).style.opacity = "1";
-		});
+		this._teamName = element.querySelector("header").innerText;
+		this._doc = ctrl.Document;
 	}
-
-	private addTeamSelectButtons(): void {
-		const teamId: string = this._ele.parentElement.getAttribute("data-team-id");
-
-		this._ele.appendChild( this.createTeamSwapButton("side-1", "W", (teamId !== "side-1")) );
-		this._ele.appendChild( this.createTeamSwapButton("side-2", "C", (teamId !== "side-2")) );
-		this._ele.appendChild( this.createTeamSwapButton("side-0", "B", (teamId !== "side-0")) );
-	}	
-
-	private createTeamSwapButton(teamId: string, text: string, initiallyOn: boolean): Element {
-		const initialDisplay: string = (initiallyOn ? "show" : "hide");
-		let button = this._doc.createElement("button");
-		
-
-		button.innerHTML = text;
-		button.setAttribute("data-team-id", teamId);
-		button.classList.add("team-picker-button", initialDisplay);
-
-		button.addEventListener("click", (e: Event) => this._controller.onTeamPick(e, button));
-
-		return button;
-	}
-
 }
 
 class SidePickerController extends Controller {
 	private _players: NodeListOf<Element> = null;
+	private _teams: NodeListOf<Element> = null;
 	private _doc: Document = null;
 
 	constructor(name: string, application: Application, element: Element) {
@@ -65,11 +34,17 @@ class SidePickerController extends Controller {
 		this._players = this._element.querySelectorAll("[data-player-id]");
 		for (let i=0; i < this._players.length; i++) {
 			const playerNode = this._players[i];
-			// @ts-ignore
+			// @ts-ignore - constructor will initialise the player
 			playerNode.item = new Player(playerNode, this);
 		}
+
+		this._teams = this._element.querySelectorAll(".team");
+		for (let i=0; i < this._teams.length; i++) {
+			const teamNode = this._teams[i];
+			// @ts-ignore
+			teamNode.item = new Team(teamNode, this);
+		}
 		
-		this.addDraggables();
 		this.addDropZones();		
 	}
 
@@ -81,7 +56,7 @@ class SidePickerController extends Controller {
 		this._application.log("received", evt);
 	}
 
-	onTeamPick(e: Event, button: Element): void {
+	public onMovePlayerBetweenTeams(e: Event, button: Element): void {
 		let sourceElement: Element = (<Element>e.srcElement);
 		let targetTeamId: string = sourceElement.getAttribute("data-team-id");
 
@@ -103,7 +78,6 @@ class SidePickerController extends Controller {
 		let w: Window = this._application.Window;
 		let bg = player.style.backgroundColor;
 		w.requestAnimationFrame( () => {
-			console.log("frame");
 			player.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 			player.style.transition = 'transform 0s';
 
@@ -129,51 +103,7 @@ class SidePickerController extends Controller {
 			}
 		}
 
-	} // onTeamPick
-
-	/**
-	 * Identifier player objects and wire them up to be draggable objects.
-	 */
-	private addDraggables(): void {
-		// attach events to draggable nodes
-		const draggables: NodeListOf<Element> = this._players;
-		for (let i=0; i < draggables.length; i++) {
-			const ele: Element = draggables[i];
-
-			// Flag that the player can be dragged to other team blocks
-			ele.setAttribute("draggable", "true");
-			ele.classList.add("draggable");
-
-			ele.addEventListener("dragstart", (e: Event) => this.onDragStart(ele, e));
-			ele.addEventListener("dragend", (e: Event) => this.onDragEnd(ele));
-
-			// TODO: Modal for mobile support, to swap teams around (i.e. buttons for Team A, Team B and Bench)
-			//ele.addEventListener("click", (e: Event) => this._application.log("click",e));
-		}
-
-	} // addDraggables
-	
-
-	/**
-	 * User starts to move a player.
-	 * @param itemElement - Player being moved
-	 * @param event - Associated event
-	 */
-	onDragStart(itemElement: Element, event: any): void {
-		const playerId = itemElement.getAttribute("data-player-id");
-
-		itemElement.classList.add("dragging-effect");
-		event.dataTransfer.setData("text", playerId);
-		event.dataTransfer.effectAllowed = "move";
-	}
-
-	/**
-	 * User completes moving a player.
-	 * @param itemElement - Player being moved
-	 */
-	onDragEnd(itemElement: Element): void {
-		itemElement.classList.remove("dragging-effect");
-	}
+	} // onMovePlayerBetweenTeams
 
 
 	/**
@@ -285,10 +215,10 @@ class SidePickerController extends Controller {
 
 
 	private sequenceTeamPlayers(teamNode: Element): void {
-		const playerNotes: NodeListOf<Element> = teamNode.querySelectorAll("LI");
+		const playerNodes: NodeListOf<Element> = teamNode.querySelectorAll("LI");
 
-		for (let i=0; i < playerNotes.length; i++) {
-			const current: Element = playerNotes[i];
+		for (let i=0; i < playerNodes.length; i++) {
+			const current: Element = playerNodes[i];
 			current.setAttribute("data-player-sequence", (i+1).toString());
 		}
 	}
