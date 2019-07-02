@@ -15,12 +15,22 @@ class Player {
 	 */
 	constructor(element: Element, ctrl: SidePickerController) {
 		this._ele = element;
+		// @ts-ignore - add a reference to the player object to the DOM node
+		this._ele.item = this;
 		this._id = parseInt(element.getAttribute("data-player-id"), 10);
 		this._controller = ctrl;
 		this._doc = this._controller.Document;
 
 		this.addTeamSelectButtons();
 		this.makeDraggable();
+	}
+
+	public get Element(): HTMLElement {
+		return this._ele as HTMLElement;
+	}
+
+	public set Sequence(value: number) {
+		this._ele.setAttribute("data-player-sequence", value.toString());
 	}
 
 	/**
@@ -64,6 +74,13 @@ class Player {
 
 	}	
 
+
+	/**
+	 * Convenience method to add the buttons on the player that change the team they're on
+	 * @param teamId - Id of the team the button moves the player to
+	 * @param text - Text of the button
+	 * @param initiallyOn - Whether the button is visible at the start or not
+	 */
 	private createTeamSwapButton(teamId: string, text: string, initiallyOn: boolean): Element {
 		const initialDisplay: string = (initiallyOn ? "show" : "hide");
 		let button = this._doc.createElement("button");
@@ -79,3 +96,4 @@ class Player {
 	}
 
 }
+
