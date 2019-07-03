@@ -71,7 +71,7 @@ class SidePickerController extends Controller {
 
 		// Move the player to the new team
 		const before = player.getBoundingClientRect();
-		targetTeam.append(player);
+		targetTeam.appendChild(player);
 		const after = player.getBoundingClientRect();
 
 		const deltaX = before.left - after.left;
