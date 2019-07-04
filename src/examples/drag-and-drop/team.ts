@@ -63,8 +63,8 @@ class Team {
 	 * @param event - Event associated with the drop action.
 	 */
 	onDrop(event: any): void {
-		let dropTarget: Element = null;
 		let draggedItem: Element = null;
+		let draggedPlayer: Player = null;
 		let data: any = null;
 		let target: Element = event.target || event.srcElement;
 
@@ -74,34 +74,41 @@ class Team {
 		// Id of the node being dragged, then use that to find the element being dragged
 		data = event.dataTransfer.getData("text");
 		draggedItem = this._controller.FindPlayer(data);
+		// @ts-ignore
+		draggedPlayer = draggedItem.item as Player;
 
+		let dropTeamTarget: Element = null;
 		switch (target.tagName) {
 			case "SECTION":
 				// Add player at the bottom of the list
-				dropTarget = target.querySelector("OL");
-				this.appendTo(dropTarget, draggedItem);
+				dropTeamTarget = target.querySelector("OL");
+				this.appendTo(dropTeamTarget, draggedItem);
 			break;
 
 			case "HEADER":
 				// Add player at the bottom of the list
-				dropTarget = target.parentElement.querySelector("OL");
-				this.appendTo(dropTarget, draggedItem);
+				dropTeamTarget = target.parentElement.querySelector("OL");
+				this.appendTo(dropTeamTarget, draggedItem);
 			break;
 
 			case "OL": 
 				// Add player at the bottom of the list
 				this.appendTo(target, draggedItem);
+				dropTeamTarget = target;
 			break;
 
 			case "LI":
 				// Add player just after the player the user is dropping them onto
-				dropTarget = target;
-				this.insertAfter(dropTarget, draggedItem);
+				this.insertAfter(target, draggedItem);
+				dropTeamTarget = target.parentElement;
 			break;
 
 			default:
 				// ignore
 		} // switch
+
+		const targetTeamId: string = dropTeamTarget.getAttribute("data-team-id");
+		draggedPlayer.onPlayerMovedTeam(targetTeamId);
 
 	} // onDrop
 

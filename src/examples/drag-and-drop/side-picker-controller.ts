@@ -91,20 +91,8 @@ class SidePickerController extends Controller {
 
 		});
 
-		// As we've moved team the buttons are out of whack 
-		// (e.g. whites button is available, but we're now on whites)
-		let navButtons: NodeListOf<Element> = player.querySelectorAll("button");
-		for (let i=0; i < navButtons.length; i++) {
-			const nav: Element = navButtons[i];
-
-			if (nav.getAttribute("data-team-id") === targetTeamId) {
-				nav.classList.add("hide");
-				nav.classList.remove("show");
-			} else {
-				nav.classList.add("show");
-				nav.classList.remove("hide");
-			}
-		}
+		// @ts-ignore
+		player.item.onPlayerMovedTeam(targetTeamId);
 
 	} // onMovePlayerBetweenTeams
 

@@ -34,6 +34,31 @@ class Player {
 	}
 
 	/**
+	 * Called when a player is moved from team "A" to team "B".  
+	 * The player can be moved by dragging, or by the move team buttons, in either case this will be called.
+	 * As a consequence of the player moving teams, the move buttons will be shown or hidden as appropriate, 
+	 * (i.e. if you're on the colours team, the colours selection button makes no sense).
+	 * @param newTeamId 
+	 */
+	public onPlayerMovedTeam(newTeamId: string): void {
+		// As we've moved team the buttons are out of whack 
+		// (e.g. whites button is available, but we're now on whites)
+		let navButtons: NodeListOf<Element> = this._ele.querySelectorAll("button");
+		for (let i=0; i < navButtons.length; i++) {
+			const nav: Element = navButtons[i];
+
+			if (nav.getAttribute("data-team-id") === newTeamId) {
+				nav.classList.add("hide");
+				nav.classList.remove("show");
+			} else {
+				nav.classList.add("show");
+				nav.classList.remove("hide");
+			}
+		}
+
+	}
+
+	/**
 	 * Makes the player a draggable DOM element, setting up the required events (i.e. dragstart and dragend).
 	 */
 	private makeDraggable(): void {
