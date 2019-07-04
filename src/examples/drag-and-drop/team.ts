@@ -67,7 +67,6 @@ class Team {
 		let draggedPlayer: Player = null;
 		let data: any = null;
 		let target: Element = event.target || event.srcElement;
-		let section: Element = target; // assume we're dropping in the section for now
 
 		this.cancelDefaultAction(event)
 
@@ -82,28 +81,24 @@ console.log(target.tagName);
 		let dropTeamTarget: Element = null;
 		switch (target.tagName) {
 			case "SECTION":
-				section = target;
 				// Add player at the bottom of the list
 				dropTeamTarget = target.querySelector("OL");
 				this.appendTo(dropTeamTarget, draggedItem);
 			break;
 
 			case "HEADER":
-				section = target.parentElement;
 				// Add player at the bottom of the list
-				dropTeamTarget = section.querySelector("OL");
+				dropTeamTarget = this._ele.querySelector("OL");
 				this.appendTo(dropTeamTarget, draggedItem);
 			break;
 
 			case "OL": 
-				section = target.parentElement;
 				// Add player at the bottom of the list
 				this.appendTo(target, draggedItem);
 				dropTeamTarget = target;
 			break;
 
 			case "LI":
-				section = target.parentElement.parentElement;
 				// Add player just after the player the user is dropping them onto
 				this.insertAfter(target, draggedItem);
 				dropTeamTarget = target.parentElement;
@@ -117,7 +112,7 @@ console.log(target.tagName);
 		draggedPlayer.onPlayerMovedTeam(targetTeamId);
 
 		// remove the hover effect
-		section.classList.remove("section-hover");
+		this._ele.classList.remove("section-hover");
 
 	} // onDrop
 
