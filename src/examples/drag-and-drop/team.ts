@@ -67,9 +67,9 @@ class Team {
 		let draggedPlayer: Player = null;
 		let data: any = null;
 		let target: Element = event.target || event.srcElement;
+		let section: Element = target; // assume we're dropping in the section for now
 
 		this.cancelDefaultAction(event)
-		target.classList.remove("section-hover");
 
 		// Id of the node being dragged, then use that to find the element being dragged
 		data = event.dataTransfer.getData("text");
@@ -77,27 +77,33 @@ class Team {
 		// @ts-ignore
 		draggedPlayer = draggedItem.item as Player;
 
+console.log(target.tagName);
+
 		let dropTeamTarget: Element = null;
 		switch (target.tagName) {
 			case "SECTION":
+				section = target;
 				// Add player at the bottom of the list
 				dropTeamTarget = target.querySelector("OL");
 				this.appendTo(dropTeamTarget, draggedItem);
 			break;
 
 			case "HEADER":
+				section = target.parentElement;
 				// Add player at the bottom of the list
-				dropTeamTarget = target.parentElement.querySelector("OL");
+				dropTeamTarget = section.querySelector("OL");
 				this.appendTo(dropTeamTarget, draggedItem);
 			break;
 
 			case "OL": 
+				section = target.parentElement;
 				// Add player at the bottom of the list
 				this.appendTo(target, draggedItem);
 				dropTeamTarget = target;
 			break;
 
 			case "LI":
+				section = target.parentElement.parentElement;
 				// Add player just after the player the user is dropping them onto
 				this.insertAfter(target, draggedItem);
 				dropTeamTarget = target.parentElement;
@@ -109,6 +115,9 @@ class Team {
 
 		const targetTeamId: string = dropTeamTarget.getAttribute("data-team-id");
 		draggedPlayer.onPlayerMovedTeam(targetTeamId);
+
+		// remove the hover effect
+		section.classList.remove("section-hover");
 
 	} // onDrop
 
