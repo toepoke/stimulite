@@ -29,28 +29,6 @@ abstract class Controller {
 	}
 
 	/**
-	 * Called when an event is broadcast through the application.
-	 * @param evt - Event that has been broadcast.
-	 */
-	public Subscribe(evt: ApplicationEvent): void {
-		// Implement this in the subclass if you wish to recieve published events
-	}
-
-	/**
-	 * Convenience function to publish an application event
-	 * @param evt - Event to be pubslished
-	 */
-	public Publish(eventName: string, payload: any): void {
-		const evt: ApplicationEvent = {
-			from: this,
-			name: eventName,
-			payload: payload
-		};
-		
-		this._application.BroadcastEvent(evt);
-	}
-
-	/**
 	 * Called once the controller has been created and initialised (i.e. after it's constructor)
 	 * has been called.
 	 */
@@ -63,6 +41,10 @@ abstract class Controller {
 	 */
 	public Disconnect(): void {
 		// Implement this in the subclass if you wish to recieve disconnect events
+	}
+
+	public get Application(): Application {
+		return this._application;
 	}
 
 } // Controller

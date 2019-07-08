@@ -10,6 +10,7 @@ class Application {
 	protected _window: Window;
 	protected _element: Element;
 	protected _controllers: Array<Controller>;
+	protected _subscribers: Array<any> = [];
 	protected _debugOn: boolean = false;
 
 	/**
@@ -30,28 +31,42 @@ class Application {
 		return this._window;
 	}
 
+
 	/**
-	 * Broadcasts an event from controller (a) to all other controllers on the page
+	 * Registers with the application that an object wishes to be notified of events.
+	 * @param subscriber 
+	 */
+	public SubscribeToEvents(subscriber: any): void {
+		this._subscribers.push(subscriber);
+	}
+
+
+	/**
+	 * Broadcasts an event to all subscribers registered to listen for events.
 	 * Example:
-	 *    this.application.BroadcastEvent({
+	 *    this.application.Publish({
 	 *       name: "testy::mctesty",
 	 *       payload: {
 	 *          hi: "Hello there!"
 	 *       }
 	 *    });
 	 */
-	public BroadcastEvent(evt: ApplicationEvent): void {
-		if (!evt.from)
-			throw new Error("Controller the event came from must be defined.");
-
-		this.log("Broadcast: ", evt);
-
-		for (const ctrl of this._controllers) {
-			// broadcast to all, _including_ the controller that broadcast the
-			// event (can also be an internal message)
-			ctrl.Subscribe(evt);
+	public Publish(sender: any, eventName: string, payload: any): void {
+		const evt: ApplicationEvent = {
+			from: sender,
+			name: eventName,
+			payload: payload
+		};
+		
+		for (let i=0; i < this._subscribers.length; i++) {
+			let subscriber = this._subscribers[i];
+			if (!subscriber["Subscribe"]) {
+				throw new Error("Subscribing object does not implement 'Subscribe' method!");
+			}
+			subscriber["Subscribe"](evt);
 		}
 	}
+
 
 	/**
 	 * Disconnects all controllers
@@ -60,6 +75,8 @@ class Application {
 		for (const ctrl of this._controllers) {
 			ctrl.Disconnect();
 		}
+		this._subscribers = null;
+		this._controllers = null;
 	}
 
 	/**
@@ -157,5 +174,5 @@ class Application {
 		return value.substring(len - search.length, len) === search;
 	}
 
-}
+} // Application
 

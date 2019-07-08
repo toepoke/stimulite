@@ -33,9 +33,7 @@ body {
 	min-height: 100px;
 }
 .side-picker--teams section header, .side-picker--bench section header {
-	position: relative;
-	left: 50%;
-	margin-left: auto;
+	text-align: center;
 }
 ol.side-picker--players li {
 	list-style-type: none;
@@ -44,6 +42,18 @@ ol.side-picker--players li {
 	height: 50px;
 	border: solid 1px #eee;
 }
+
+x_section.colours ol.side-picker--players li {
+	background: #00b09b;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to top, #96c93d, #00b09b);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to top, #96c93d, #00b09b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+x_section.bench ol.side-picker--players li {
+	background: #6D6027;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to top, #D3CBB8, #6D6027);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to top, #D3CBB8, #6D6027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 
 .team-picker-button {
 	cursor: pointer;

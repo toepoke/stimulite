@@ -15,9 +15,6 @@ class SeasonGalleryController extends Controller {
 	public Disconnect(): void {
 	}
 
-	public Subscribe(evt: ApplicationEvent): void {
-	}
-
 	private wireUpSounds(): void {
 		const slides: NodeListOf<Element> = this._element.querySelectorAll(".slide");
 		

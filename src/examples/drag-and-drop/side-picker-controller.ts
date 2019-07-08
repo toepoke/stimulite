@@ -8,15 +8,16 @@ class SidePickerController extends Controller {
 
 	constructor(name: string, application: Application, element: Element) {
 		super(name, application, element);
-		this._doc = application.Window.document;		
+		this._doc = application.Window.document;
 	}
 
 	public get Document(): Document {
 		return this._doc;
 	}
 
+
 	public Connect(): void {
-		this._application.warn("Connect!");		
+		this._application.SubscribeToEvents(this);
 
 		this._players = this._element.querySelectorAll("[data-player-id]");
 		for (let i=0; i < this._players.length; i++) {
@@ -33,15 +34,17 @@ class SidePickerController extends Controller {
 		}
 	}
 
-	public Disconnect(): void {
-		this._application.warn("Disconnect!");
-	}
 
+	/**
+	 * Looks for events that need dealing with at the controller level.
+	 * @param evt - Event being consumed
+	 */
 	public Subscribe(evt: ApplicationEvent): void {
 		if (evt.name === "PLAYER-TEAM-MOVE::START") {
 			this.switchTeams(evt.payload.Button, evt.payload.Player);
 		}
 	}
+
 
 	/**
 	 * Moves a player between teams when a "team selection button" is click on a player.
@@ -79,9 +82,9 @@ class SidePickerController extends Controller {
 
 		// @ts-ignore
 		player.onPlayerMovedTeam(targetTeamId);
-
 	}
 
+	
 	/**
 	 * Convenience function to find a player, based on their [data] identifier
 	 * @param playerId Id of the player

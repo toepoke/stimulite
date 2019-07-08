@@ -33,6 +33,7 @@ class Player {
 		this._ele.setAttribute("data-player-sequence", value.toString());
 	}
 
+
 	/**
 	 * Called when a player is moved from team "A" to team "B".  
 	 * The player can be moved by dragging, or by the move team buttons, in either case this will be called.
@@ -58,6 +59,7 @@ class Player {
 
 	}
 
+
 	/**
 	 * Makes the player a draggable DOM element, setting up the required events (i.e. dragstart and dragend).
 	 */
@@ -78,6 +80,7 @@ class Player {
 		});
 	}
 	
+
 	/**
 	 * Adds buttons to the player DOM for swapping between sides.
 	 * (buttons will be a better mobile experience, dragging can be a tad faffy on touch device)
@@ -99,7 +102,7 @@ class Player {
 
 	}	
 
-
+	
 	/**
 	 * Convenience method to add the buttons on the player that change the team they're on
 	 * @param teamId - Id of the team the button moves the player to
@@ -116,7 +119,7 @@ class Player {
 		button.classList.add("team-picker-button", initialDisplay);
 
 		button.addEventListener("click", (e: Event) => {
-			this._controller.Publish("PLAYER-TEAM-MOVE::START", {
+			this._controller.Application.Publish(this, "PLAYER-TEAM-MOVE::START", {
 				Button: button,
 				Player: this
 			});
@@ -125,5 +128,5 @@ class Player {
 		return button;
 	}
 
-}
+} // Player
 

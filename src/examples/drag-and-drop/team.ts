@@ -22,7 +22,8 @@ class Team {
 		this._ele.addEventListener("dragover", (e: Event) => this.onDragOver(e) );
 		this._ele.addEventListener("dragleave", (e: Event) => this.onDragLeave(e) );
 		this._ele.querySelector("OL").addEventListener("drop", (e: Event) => this.onDrop(e) );
-}
+	}
+
 
 	/**
 	 * Fired when a player is moved over a given drop area (aka Team block).
@@ -131,7 +132,6 @@ class Team {
 		}
 	}
 	
-
 
 	/**
 	 * Adds the dropped player to the end of the list of players in the block
