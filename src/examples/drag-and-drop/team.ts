@@ -62,7 +62,7 @@ class Team {
 	 *  - If dropped at LI level, player is added immediately after the player it's dropped on (so user can re-order nodes)
 	 * @param event - Event associated with the drop action.
 	 */
-	onDrop(event: any): void {
+	private onDrop(event: any): void {
 		let draggedItem: Element = null;
 		let draggedPlayer: Player = null;
 		let data: any = null;
@@ -75,8 +75,6 @@ class Team {
 		draggedItem = this._controller.FindPlayer(data);
 		// @ts-ignore
 		draggedPlayer = draggedItem.item as Player;
-
-console.log(target.tagName);
 
 		let dropTeamTarget: Element = null;
 		switch (target.tagName) {

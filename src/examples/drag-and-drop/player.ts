@@ -115,7 +115,12 @@ class Player {
 		button.setAttribute("data-team-id", teamId);
 		button.classList.add("team-picker-button", initialDisplay);
 
-		button.addEventListener("click", (e: Event) => this._controller.onMovePlayerBetweenTeams(e, button));
+		button.addEventListener("click", (e: Event) => {
+			this._controller.Publish("PLAYER-TEAM-MOVE::START", {
+				Button: button,
+				Player: this
+			});
+		});
 
 		return button;
 	}

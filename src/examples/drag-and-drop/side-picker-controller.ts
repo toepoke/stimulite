@@ -37,10 +37,50 @@ class SidePickerController extends Controller {
 		this._application.warn("Disconnect!");
 	}
 
-	public Subscription(evt: ApplicationEvent): void {
-		this._application.log("received", evt);
+	public Subscribe(evt: ApplicationEvent): void {
+		if (evt.name === "PLAYER-TEAM-MOVE::START") {
+			this.switchTeams(evt.payload.Button, evt.payload.Player);
+		}
 	}
 
+	/**
+	 * Moves a player between teams when a "team selection button" is click on a player.
+	 * @param button - Team button that was clicked (Colours, Whites or Bench)
+	 * @param player - Player that was clicked to be moved
+	 */
+	public switchTeams(button: HTMLButtonElement, player: Player): void {
+		let targetTeamId = button.getAttribute("data-team-id");
+		// find the team list we're moving to
+		let targetTeam = this._element.querySelector<HTMLElement>(`ol[data-team-id=${targetTeamId}]`);
+
+		// Move the player to the new team
+		const before = player.Element.getBoundingClientRect();
+		targetTeam.appendChild(player.Element);
+		const after = player.Element.getBoundingClientRect();
+
+		const deltaX = before.left - after.left;
+		const deltaY = before.top - after.top;
+
+		// When a player button is clicked, this gives an animation showing the player
+		// being dragged across to it's new placing.  It's a bit funky what's happening, for details see:
+		// https://medium.com/developers-writing/animating-the-unanimatable-1346a5aab3cd
+		let w: Window = this._application.Window;
+		let bg = player.Element.style.backgroundColor;
+		w.requestAnimationFrame( () => {
+			player.Element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+			player.Element.style.transition = 'transform 0s';
+
+			w.requestAnimationFrame( () => {
+				player.Element.style.transform = '';
+				player.Element.style.transition = 'transform 500ms';
+			});
+
+		});
+
+		// @ts-ignore
+		player.onPlayerMovedTeam(targetTeamId);
+
+	}
 
 	/**
 	 * Convenience function to find a player, based on their [data] identifier
@@ -51,50 +91,6 @@ class SidePickerController extends Controller {
 
 		return ele;
 	}
-
-
-	/**
-	 * Fired when one of the [player] buttons are selected to move a player between
-	 * teams.
-	 * @param e - Event - the team where the player is moving to
-	 * @param button - Button which was clicked (on the player)
-	 */
-	public onMovePlayerBetweenTeams(e: Event, button: Element): void {
-		let sourceElement: Element = (<Element>e.srcElement);
-		let targetTeamId: string = sourceElement.getAttribute("data-team-id");
-
-		// find the team list we're moving to
-		let targetTeam = this._element.querySelector<HTMLElement>(`ol[data-team-id=${targetTeamId}]`);
-		let player: HTMLElement = button.parentElement;
-
-		// Move the player to the new team
-		const before = player.getBoundingClientRect();
-		targetTeam.appendChild(player);
-		const after = player.getBoundingClientRect();
-
-		const deltaX = before.left - after.left;
-		const deltaY = before.top - after.top;
-
-		// When a player button is clicked, this gives an animation showing the player
-		// being dragged across to it's new placing.  It's a bit funky what's happening, for details see:
-		// https://medium.com/developers-writing/animating-the-unanimatable-1346a5aab3cd
-		let w: Window = this._application.Window;
-		let bg = player.style.backgroundColor;
-		w.requestAnimationFrame( () => {
-			player.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-			player.style.transition = 'transform 0s';
-
-			w.requestAnimationFrame( () => {
-				player.style.transform = '';
-				player.style.transition = 'transform 500ms';
-			});
-
-		});
-
-		// @ts-ignore
-		player.item.onPlayerMovedTeam(targetTeamId);
-
-	} // onMovePlayerBetweenTeams
 
 } // SidePickerController
 

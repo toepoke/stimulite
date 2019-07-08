@@ -1,6 +1,8 @@
 /// <reference path="./application-event.ts" />
 /// <reference path="./controller.ts" />
 
+type outSignature = (message: string, ...optionalParams: any[]) => void;
+
 /**
  * In effect, the application is the page on which all controllers reside.
  */
@@ -39,9 +41,15 @@ class Application {
 	 *    });
 	 */
 	public BroadcastEvent(evt: ApplicationEvent): void {
+		if (!evt.from)
+			throw new Error("Controller the event came from must be defined.");
+
+		this.log("Broadcast: ", evt);
+
 		for (const ctrl of this._controllers) {
-			// todo: Exclude sending controller from broadcast
-			ctrl.Subscription(evt);
+			// broadcast to all, _including_ the controller that broadcast the
+			// event (can also be an internal message)
+			ctrl.Subscribe(evt);
 		}
 	}
 
@@ -69,9 +77,7 @@ class Application {
 	 * @param optionalParams - Additional data
 	 */
 	public warn(message?: any, ...optionalParams: any[]): void {
-		if (this._debugOn && console.warn) {
-			console.warn(message, optionalParams);
-		}
+		this.out(console.warn, message, optionalParams);
 	}
 
 	/**
@@ -80,9 +86,7 @@ class Application {
 	 * @param optionalParams - Additional data
 	 */
 	public log(message?: any, ...optionalParams: any[]): void {
-		if (this._debugOn && console.log) {
-			console.log(message, optionalParams);
-		}
+		this.out(console.log, message, optionalParams);
 	}
 
 	/**
@@ -91,10 +95,24 @@ class Application {
 	 * @param optionalParams - Additional data
 	 */
 	public info(message?: any, ...optionalParams: any[]): void {
-		if (this._debugOn && console.log) {
-			console.info(message, optionalParams);
-		}
+		this.out(console.info, message, optionalParams);
 	}
+
+	/**
+	 * Helper for writing to the console.
+	 * @param outOn - warn|log|info
+	 * @param message - message to be displayed
+	 * @param optionalParams - additional parameters to be displayed
+	 */
+	private out(outOn: outSignature, message: any, optionalParams: any[]): void {
+		if (this._debugOn && outOn) {
+			if (optionalParams.length === 1) {
+				outOn(message, optionalParams[0]);
+			} else {
+				outOn(message, optionalParams);
+			}
+		}
+	} // out
 
 	/**
 	 * Finds all the elements on the page that have a "data-controller" attribute and creates

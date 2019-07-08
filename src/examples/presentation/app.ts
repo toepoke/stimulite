@@ -15,7 +15,7 @@ class SeasonGalleryController extends Controller {
 	public Disconnect(): void {
 	}
 
-	public Subscription(evt: ApplicationEvent): void {
+	public Subscribe(evt: ApplicationEvent): void {
 	}
 
 	private wireUpSounds(): void {

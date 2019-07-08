@@ -32,8 +32,22 @@ abstract class Controller {
 	 * Called when an event is broadcast through the application.
 	 * @param evt - Event that has been broadcast.
 	 */
-	public Subscription(evt: ApplicationEvent): void {
-		// Implement this in the subclass if you wish to recieve subscription events
+	public Subscribe(evt: ApplicationEvent): void {
+		// Implement this in the subclass if you wish to recieve published events
+	}
+
+	/**
+	 * Convenience function to publish an application event
+	 * @param evt - Event to be pubslished
+	 */
+	public Publish(eventName: string, payload: any): void {
+		const evt: ApplicationEvent = {
+			from: this,
+			name: eventName,
+			payload: payload
+		};
+		
+		this._application.BroadcastEvent(evt);
 	}
 
 	/**
