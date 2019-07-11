@@ -88,9 +88,9 @@ class Player {
 	private addTeamSelectButtons(): void {
 		const teamId: string = this._ele.parentElement.getAttribute("data-team-id");
 
-		this._ele.appendChild( this.createTeamSwapButton("side-1", "W", (teamId !== "side-1")) );
-		this._ele.appendChild( this.createTeamSwapButton("side-2", "C", (teamId !== "side-2")) );
-		this._ele.appendChild( this.createTeamSwapButton("side-0", "B", (teamId !== "side-0")) );
+		this._ele.appendChild( this.createTeamSwapButton("1", "W", (teamId !== "1")) );
+		this._ele.appendChild( this.createTeamSwapButton("2", "C", (teamId !== "2")) );
+		this._ele.appendChild( this.createTeamSwapButton("0", "B", (teamId !== "0")) );
 
 		// Noddy effect whilst the players are moving between teams (when buttons are used)
 		this._ele.addEventListener("transitionstart", (e: Event) => {
@@ -113,15 +113,16 @@ class Player {
 		const initialDisplay: string = (initiallyOn ? "show" : "hide");
 		let button = this._doc.createElement("button");
 		
-
 		button.innerHTML = text;
 		button.setAttribute("data-team-id", teamId);
 		button.classList.add("team-picker-button", initialDisplay);
 
 		button.addEventListener("click", (e: Event) => {
+			let targetTeamId = button.getAttribute("data-team-id");
+
 			this._controller.Application.Publish(this, "PLAYER-TEAM-MOVE::START", {
-				Button: button,
-				Player: this
+				targetTeamId: targetTeamId,
+				player: this
 			});
 		});
 

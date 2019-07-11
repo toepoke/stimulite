@@ -41,7 +41,7 @@ class SidePickerController extends Controller {
 	 */
 	public Subscribe(evt: ApplicationEvent): void {
 		if (evt.name === "PLAYER-TEAM-MOVE::START") {
-			this.switchTeams(evt.payload.Button, evt.payload.Player);
+			this.switchTeams(evt.payload.targetTeamId, evt.payload.player);
 		}
 	}
 
@@ -51,10 +51,9 @@ class SidePickerController extends Controller {
 	 * @param button - Team button that was clicked (Colours, Whites or Bench)
 	 * @param player - Player that was clicked to be moved
 	 */
-	public switchTeams(button: HTMLButtonElement, player: Player): void {
-		let targetTeamId = button.getAttribute("data-team-id");
+	public switchTeams(targetTeamId: string, player: Player): void {
 		// find the team list we're moving to
-		let targetTeam = this._element.querySelector<HTMLElement>(`ol[data-team-id=${targetTeamId}]`);
+		let targetTeam = this.FindTeam(targetTeamId);
 
 		// Move the player to the new team
 		const before = player.Element.getBoundingClientRect();
@@ -68,7 +67,6 @@ class SidePickerController extends Controller {
 		// being dragged across to it's new placing.  It's a bit funky what's happening, for details see:
 		// https://medium.com/developers-writing/animating-the-unanimatable-1346a5aab3cd
 		let w: Window = this._application.Window;
-		let bg = player.Element.style.backgroundColor;
 		w.requestAnimationFrame( () => {
 			player.Element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 			player.Element.style.transition = 'transform 0s';
@@ -89,8 +87,18 @@ class SidePickerController extends Controller {
 	 * Convenience function to find a player, based on their [data] identifier
 	 * @param playerId Id of the player
 	 */
-	public FindPlayer(playerId: number): Element {
-		let ele: Element = this._element.querySelector(`[data-player-id='${playerId}'`);
+	public FindPlayer(playerId: number | string): Element {
+		let ele: Element = this._element.querySelector(`[data-player-id='${playerId}']`);
+
+		return ele;
+	}
+
+	/**
+	 * Convenience function to find a team section, based on it's [data] identifier
+	 * @param teamId - Id of the team div
+	 */
+	public FindTeam(teamId: number | string): Element {
+		let ele = this._element.querySelector<HTMLElement>(`ol[data-team-id='${teamId}']`);
 
 		return ele;
 	}
