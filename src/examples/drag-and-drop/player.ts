@@ -67,11 +67,9 @@ class Player {
 		this._ele.setAttribute("draggable", "true");
 		this._ele.classList.add("draggable");
 
-		this._ele.addEventListener("dragstart", (e: Event) => {
+		this._ele.addEventListener("dragstart", (e: DragEvent) => {
 			this._ele.classList.add("dragging-effect");
-			// @ts-ignore
-			e.dataTransfer.setData("text", this._id);
-			// @ts-ignore
+			e.dataTransfer.setData("text", this._id.toString());
 			e.dataTransfer.effectAllowed = "move";
 		});
 

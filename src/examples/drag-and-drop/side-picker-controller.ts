@@ -22,7 +22,6 @@ class SidePickerController extends Controller {
 		this._players = this._element.querySelectorAll("[data-player-id]");
 		for (let i=0; i < this._players.length; i++) {
 			const playerNode = this._players[i];
-			// @ts-ignore - constructor will initialise the player
 			new Player(playerNode, this);
 		}
 
@@ -77,7 +76,6 @@ class SidePickerController extends Controller {
 
 		});
 
-		// @ts-ignore
 		player.onPlayerMovedTeam(targetTeamId);
 	}
 
