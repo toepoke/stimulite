@@ -29,8 +29,7 @@ class SidePickerController extends Controller {
 		this._teams = this._element.querySelectorAll("section.team");
 		for (let i=0; i < this._teams.length; i++) {
 			const teamNode = <HTMLElement>this._teams[i];
-			// @ts-ignore - constructor will initialise the team
-			teamNode.item = new Team(teamNode, this);
+			teamNode.teamNode = new Team(teamNode, this);
 		}
 	}
 

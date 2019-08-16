@@ -1,3 +1,4 @@
+/// <reference path="./interface-extensions.ts" />
 
 /**
  * Represents a player on the side picker screen.
@@ -15,8 +16,7 @@ class Player {
 	 */
 	constructor(element: HTMLElement, ctrl: SidePickerController) {
 		this._ele = element;
-		// @ts-ignore - add a reference to the player object to the DOM node
-		this._ele.item = this;
+		this._ele.playerNode = this;
 		this._id = parseInt(element.getAttribute("data-player-id"), 10);
 		this._controller = ctrl;
 		this._doc = this._controller.Document;

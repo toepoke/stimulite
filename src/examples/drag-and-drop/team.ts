@@ -74,8 +74,7 @@ class Team {
 		// Id of the node being dragged, then use that to find the element being dragged
 		data = event.dataTransfer.getData("text");
 		draggedItem = this._controller.FindPlayer(data);
-		// @ts-ignore
-		draggedPlayer = draggedItem.item as Player;
+		draggedPlayer = draggedItem.playerNode;
 
 		let dropTeamTarget: HTMLElement = null;
 		switch (target.tagName) {
@@ -127,8 +126,7 @@ class Team {
 
 		for (let i=0; i < playerNodes.length; i++) {
 			const current: HTMLElement = playerNodes[i];
-			// @ts-ignore
-			current.item.Sequence = i+1;
+			current.playerNode.Sequence = i+1;
 		}
 	}
 	
