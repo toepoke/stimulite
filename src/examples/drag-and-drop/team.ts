@@ -1,10 +1,10 @@
 class Team {
 	private _controller: SidePickerController = null;
 	private _doc: Document = null;
-	private _ele: Element = null;
+	private _ele: HTMLElement = null;
 	private _teamName: string = null;
 
-	constructor(element: Element, ctrl: SidePickerController) {
+	constructor(element: HTMLElement, ctrl: SidePickerController) {
 		this._controller = ctrl;
 		this._ele = element;
 		this._teamName = element.querySelector("header").innerText;
@@ -64,10 +64,10 @@ class Team {
 	 * @param event - Event associated with the drop action.
 	 */
 	private onDrop(event: any): void {
-		let draggedItem: Element = null;
+		let draggedItem: HTMLElement = null;
 		let draggedPlayer: Player = null;
 		let data: any = null;
-		let target: Element = event.target || event.srcElement;
+		let target: HTMLElement = event.target || event.srcElement;
 
 		this.cancelDefaultAction(event)
 
@@ -77,7 +77,7 @@ class Team {
 		// @ts-ignore
 		draggedPlayer = draggedItem.item as Player;
 
-		let dropTeamTarget: Element = null;
+		let dropTeamTarget: HTMLElement = null;
 		switch (target.tagName) {
 			case "SECTION":
 				// Add player at the bottom of the list
@@ -122,11 +122,11 @@ class Team {
 	 * is updated.
 	 * @param teamNode Team where players need resequencing
 	 */
-	private reSequenceTeamPlayers(teamNode: Element): void {
-		const playerNodes: NodeListOf<Element> = teamNode.querySelectorAll("LI");
+	private reSequenceTeamPlayers(teamNode: HTMLElement): void {
+		const playerNodes: NodeListOf<HTMLElement> = teamNode.querySelectorAll("LI");
 
 		for (let i=0; i < playerNodes.length; i++) {
-			const current: Element = playerNodes[i];
+			const current: HTMLElement = playerNodes[i];
 			// @ts-ignore
 			current.item.Sequence = i+1;
 		}
@@ -138,8 +138,8 @@ class Team {
 	 * @param target - "Team" player is being dropped on
 	 * @param draggedItem - Player being moved.
 	 */
-	private appendTo(target: Element, draggedItem: Element) {
-		let teamNode: Element = null;
+	private appendTo(target: HTMLElement, draggedItem: HTMLElement) {
+		let teamNode: HTMLElement = null;
 		try {
 			target.appendChild(draggedItem);
 			teamNode = this.removeEffects(target, draggedItem);
@@ -156,8 +156,8 @@ class Team {
 	 * @param target - Player user is hovering over
 	 * @param draggedItem - Player being moved.
 	 */
-	private insertAfter(target: Element, draggedItem: Element) {
-		let teamNode: Element = null;
+	private insertAfter(target: HTMLElement, draggedItem: HTMLElement) {
+		let teamNode: HTMLElement = null;
 		try {
 			target.parentNode.insertBefore(draggedItem, target.nextSibling);
 			teamNode = this.removeEffects(target, draggedItem);
@@ -175,9 +175,9 @@ class Team {
 	 * @param target - "Team" block where player has been dropped
 	 * @param draggedItem - Player who has been moved
 	 */
-	private removeEffects(target: Element, draggedItem: Element): Element {
-		let current: Element = target;
-		let team: Element = null;
+	private removeEffects(target: HTMLElement, draggedItem: HTMLElement): HTMLElement {
+		let current: HTMLElement = target;
+		let team: HTMLElement = null;
 
 		// Remove player drag effect
 		draggedItem.classList.remove("dragging-effect");

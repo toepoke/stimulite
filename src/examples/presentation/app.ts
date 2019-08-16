@@ -1,7 +1,7 @@
 /// <reference path="../../stimulite/stimulite.ts" />
 
 class SeasonGalleryController extends Controller {
-	constructor(name: string, application: Application, element: Element) {
+	constructor(name: string, application: Application, element: HTMLElement) {
 		super(name, application, element);
 	}
 
@@ -16,7 +16,7 @@ class SeasonGalleryController extends Controller {
 	}
 
 	private wireUpSounds(): void {
-		const slides: NodeListOf<Element> = this._element.querySelectorAll(".slide");
+		const slides: NodeListOf<HTMLElement> = this._element.querySelectorAll(".slide");
 		
 		const sounds = this._element.getElementsByTagName("audio");
 		const woosh: HTMLAudioElement = sounds[0];
@@ -32,7 +32,7 @@ class SeasonGalleryController extends Controller {
 		});
 
 		for (let i=0; i < slides.length; i++) {
-			const slide: Element = slides[i];
+			const slide: HTMLElement = slides[i];
 
 			slide.addEventListener("animationstart", (e: Event) => this.play(woosh) );
 			// we were going to have "crash" at "animationend", but it seems unreliable, so removed

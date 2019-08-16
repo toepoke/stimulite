@@ -5,7 +5,7 @@
 class Player {
 	private _controller: SidePickerController = null;
 	private _doc: Document = null;
-	private _ele: Element = null;
+	private _ele: HTMLElement = null;
 	private _id: number = null;
 
 	/**
@@ -13,7 +13,7 @@ class Player {
 	 * @param element - DOM element the player is associated with.
 	 * @param ctrl - Reference to the SidePickerController the play is within (not the team, as the player can change teams).
 	 */
-	constructor(element: Element, ctrl: SidePickerController) {
+	constructor(element: HTMLElement, ctrl: SidePickerController) {
 		this._ele = element;
 		// @ts-ignore - add a reference to the player object to the DOM node
 		this._ele.item = this;
@@ -44,7 +44,7 @@ class Player {
 	public onPlayerMovedTeam(newTeamId: string): void {
 		// As we've moved team the buttons are out of whack 
 		// (e.g. whites button is available, but we're now on whites)
-		let navButtons: NodeListOf<Element> = this._ele.querySelectorAll("button");
+		let navButtons: NodeListOf<HTMLButtonElement> = this._ele.querySelectorAll("button");
 		for (let i=0; i < navButtons.length; i++) {
 			const nav: Element = navButtons[i];
 
@@ -109,7 +109,7 @@ class Player {
 	 * @param text - Text of the button
 	 * @param initiallyOn - Whether the button is visible at the start or not
 	 */
-	private createTeamSwapButton(teamId: string, text: string, initiallyOn: boolean): Element {
+	private createTeamSwapButton(teamId: string, text: string, initiallyOn: boolean): HTMLButtonElement {
 		const initialDisplay: string = (initiallyOn ? "show" : "hide");
 		let button = this._doc.createElement("button");
 		

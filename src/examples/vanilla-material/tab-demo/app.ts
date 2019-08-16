@@ -2,7 +2,7 @@
 /// <reference path="../_mdc-helpers/mdc-tab-helper.ts" />
 
 class MyTabs extends MdcTabHelper {
-	constructor(tabBarElement: Element, selectedIndex: number = 0) {
+	constructor(tabBarElement: HTMLElement, selectedIndex: number = 0) {
 		super(tabBarElement, selectedIndex);
 	}
 
@@ -12,17 +12,17 @@ class MyTabs extends MdcTabHelper {
 }
 
 class TabDemoController extends Controller {
-	protected _matButtons: Array<Element> = null;
-	protected _matTextFields: Array<Element> = null;
+	protected _matButtons: Array<HTMLElement> = null;
+	protected _matTextFields: Array<HTMLElement> = null;
 	protected _myTabs: MyTabs = null;
 
-	constructor(name: string, application: Application, element: Element) {
+	constructor(name: string, application: Application, element: HTMLElement) {
 		super(name, application, element);
 	}
 
 	public Connect(): void {
-		const domTabBar = this._element.querySelector(".mdc-tab-bar");
-		this._myTabs = new MyTabs(domTabBar, 1);		
+		const domTabBar = <HTMLElement>this._element.querySelector(".mdc-tab-bar");
+		this._myTabs = new MyTabs(domTabBar, 1);
 	}
 
 } // TabDemoController

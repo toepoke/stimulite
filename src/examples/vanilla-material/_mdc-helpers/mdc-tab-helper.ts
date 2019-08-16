@@ -2,17 +2,17 @@
 
 interface MdcTabEvent_TabChange {
 	index: number;
-	content: Element;
+	content: HTMLElement;
 }
 
 abstract class MdcTabHelper {
-	private _tabBarElement: Element = null;
+	private _tabBarElement: HTMLElement = null;
 	// @ts-ignore
 	private _tabBar: mdc.tabBar.MDCTabBar = null;
 	private _totalTabs: number = 0;
-	private _panes = new Array<Element>();
+	private _panes = new Array<HTMLElement>();
 
-	constructor(tabBarElement: Element, selectedIndex: number = 0) {
+	constructor(tabBarElement: HTMLElement, selectedIndex: number = 0) {
 		this._tabBarElement = tabBarElement;
 		// @ts-ignore
 		this._tabBar = new mdc.tabBar.MDCTabBar(this._tabBarElement);
@@ -54,7 +54,7 @@ abstract class MdcTabHelper {
 		for (let i=0; i < this._totalTabs; i++) {
 			currSection = currSection.nextElementSibling;
 			currSection.classList.add("tab-content");
-			this._panes.push(currSection);
+			this._panes.push(<HTMLElement>currSection);
 		}
 
 		this._panes[selectedIndex].classList.add("tab-content--active", "show");

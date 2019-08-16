@@ -1,10 +1,10 @@
 /// <reference path="../../../stimulite/stimulite.ts" />
 
 class MaterialExamplesController extends Controller {
-	protected _matButtons: Array<Element> = null;
-	protected _matTextFields: Array<Element> = null;
+	protected _matButtons: Array<HTMLElement> = null;
+	protected _matTextFields: Array<HTMLElement> = null;
 
-	constructor(name: string, application: Application, element: Element) {
+	constructor(name: string, application: Application, element: HTMLElement) {
 		super(name, application, element);
 	}
 

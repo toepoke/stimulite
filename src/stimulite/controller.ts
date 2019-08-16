@@ -15,14 +15,14 @@ abstract class Controller {
 	/**
 	 * Element where the "data-controller" is defined.
 	 */
-	protected _element: Element;
+	protected _element: HTMLElement;
 
 	/**
 	 * Reference to the underlying application.
 	 */
 	protected _application: Application;
 
-	constructor(name: string, application: Application, element: Element) {
+	constructor(name: string, application: Application, element: HTMLElement) {
 		this._name = name;
 		this._application = application;
 		this._element = element;

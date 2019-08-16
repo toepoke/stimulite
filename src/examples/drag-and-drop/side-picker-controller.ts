@@ -2,11 +2,11 @@
 /// <reference path="./player.ts" />
 
 class SidePickerController extends Controller {
-	private _players: NodeListOf<Element> = null;
-	private _teams: NodeListOf<Element> = null;
+	private _players: NodeListOf<HTMLElement> = null;
+	private _teams: NodeListOf<HTMLElement> = null;
 	private _doc: Document = null;
 
-	constructor(name: string, application: Application, element: Element) {
+	constructor(name: string, application: Application, element: HTMLElement) {
 		super(name, application, element);
 		this._doc = application.Window.document;
 	}
@@ -28,7 +28,7 @@ class SidePickerController extends Controller {
 
 		this._teams = this._element.querySelectorAll("section.team");
 		for (let i=0; i < this._teams.length; i++) {
-			const teamNode = this._teams[i];
+			const teamNode = <HTMLElement>this._teams[i];
 			// @ts-ignore - constructor will initialise the team
 			teamNode.item = new Team(teamNode, this);
 		}
@@ -87,8 +87,8 @@ class SidePickerController extends Controller {
 	 * Convenience function to find a player, based on their [data] identifier
 	 * @param playerId Id of the player
 	 */
-	public FindPlayer(playerId: number | string): Element {
-		let ele: Element = this._element.querySelector(`[data-player-id='${playerId}']`);
+	public FindPlayer(playerId: number | string): HTMLElement {
+		let ele: HTMLElement = this._element.querySelector(`[data-player-id='${playerId}']`);
 
 		return ele;
 	}
@@ -97,7 +97,7 @@ class SidePickerController extends Controller {
 	 * Convenience function to find a team section, based on it's [data] identifier
 	 * @param teamId - Id of the team div
 	 */
-	public FindTeam(teamId: number | string): Element {
+	public FindTeam(teamId: number | string): HTMLElement {
 		let ele = this._element.querySelector<HTMLElement>(`ol[data-team-id='${teamId}']`);
 
 		return ele;
