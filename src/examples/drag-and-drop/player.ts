@@ -119,7 +119,7 @@ class Player {
 		button.addEventListener("click", (e: Event) => {
 			let targetTeamId = button.getAttribute("data-team-id");
 
-			this._controller.Application.Publish(this, EVENT_TYPES.PLAYER_TEAM_MOVE__START, {
+			this._controller.Application.Publish(this, EVENT_TYPES.PLAYER_MOVE_BY_BUTTON__START, {
 				targetTeamId: targetTeamId,
 				player: this
 			});

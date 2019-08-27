@@ -39,7 +39,7 @@ class SidePickerController extends Controller {
 	 * @param evt - Event being consumed
 	 */
 	public Subscribe(evt: ApplicationEvent): void {
-		if (evt.name === EVENT_TYPES.PLAYER_TEAM_MOVE__START) {
+		if (evt.name === EVENT_TYPES.PLAYER_MOVE_BY_BUTTON__START) {
 			this.switchTeams(evt.payload.targetTeamId, evt.payload.player);
 		}
 	}
@@ -78,6 +78,7 @@ class SidePickerController extends Controller {
 		});
 
 		player.onPlayerMovedTeam(targetTeamId);
+		
 	}
 
 	
