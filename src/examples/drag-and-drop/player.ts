@@ -1,4 +1,5 @@
 /// <reference path="./interface-extensions.ts" />
+/// <reference path="./event-types.ts" />
 
 /**
  * Represents a player on the side picker screen.
@@ -118,7 +119,7 @@ class Player {
 		button.addEventListener("click", (e: Event) => {
 			let targetTeamId = button.getAttribute("data-team-id");
 
-			this._controller.Application.Publish(this, "PLAYER-TEAM-MOVE::START", {
+			this._controller.Application.Publish(this, EVENT_TYPES.PLAYER_TEAM_MOVE__START, {
 				targetTeamId: targetTeamId,
 				player: this
 			});

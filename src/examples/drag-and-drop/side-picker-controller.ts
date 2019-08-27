@@ -1,5 +1,6 @@
 /// <reference path="../../stimulite/stimulite.ts" />
 /// <reference path="./player.ts" />
+/// <reference path="./event-types.ts" />
 
 class SidePickerController extends Controller {
 	private _players: NodeListOf<HTMLElement> = null;
@@ -38,7 +39,7 @@ class SidePickerController extends Controller {
 	 * @param evt - Event being consumed
 	 */
 	public Subscribe(evt: ApplicationEvent): void {
-		if (evt.name === "PLAYER-TEAM-MOVE::START") {
+		if (evt.name === EVENT_TYPES.PLAYER_TEAM_MOVE__START) {
 			this.switchTeams(evt.payload.targetTeamId, evt.payload.player);
 		}
 	}
