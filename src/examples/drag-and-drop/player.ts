@@ -40,7 +40,7 @@ class Player {
 	 * The player can be moved by dragging, or by the move team buttons, in either case this will be called.
 	 * As a consequence of the player moving teams, the move buttons will be shown or hidden as appropriate, 
 	 * (i.e. if you're on the colours team, the colours selection button makes no sense).
-	 * @param newTeamId 
+	 * @param newTeamId - Id of the team the player was moved to (so we know which button to hide)
 	 */
 	public onPlayerMovedTeam(newTeamId: string): void {
 		// As we've moved team the buttons are out of whack 
@@ -58,7 +58,7 @@ class Player {
 			}
 		}
 
-	}
+	} // onPlayerMovedTeam
 
 
 	/**
