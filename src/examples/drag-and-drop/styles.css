@@ -8,7 +8,7 @@ body {
 	display: inline-block;
 }
 .draggable {
-	cursor: pointer;
+	cursor: move;
 }
 .dragging-effect {
 	background-color: lightblue;
