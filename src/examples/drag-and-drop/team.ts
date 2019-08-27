@@ -107,7 +107,10 @@ class Team {
 		} // switch
 
 		const targetTeamId: string = dropTeamTarget.getAttribute("data-team-id");
-		draggedPlayer.onPlayerMovedTeam(targetTeamId);
+		this._controller.Application.Publish(this, EVENT_TYPES.PLAYER_MOVE_BY_BUTTON__COMPLETE, {
+			player: draggedPlayer,
+			targetTeamId: targetTeamId
+		});		
 
 		// remove the hover effect
 		this._ele.classList.remove("section-hover");
