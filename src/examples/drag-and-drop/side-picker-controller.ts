@@ -55,11 +55,31 @@ class SidePickerController extends Controller {
 
 
 	/**
+	 * Convenience function to find a player, based on their [data] identifier
+	 * @param playerId Id of the player
+	 */
+	public FindPlayer(playerId: number | string): HTMLElement {
+		let ele: HTMLElement = this._element.querySelector(`[data-player-id='${playerId}']`);
+
+		return ele;
+	}
+
+	/**
+	 * Convenience function to find a team section, based on it's [data] identifier
+	 * @param teamId - Id of the team div
+	 */
+	public FindTeam(teamId: number | string): HTMLElement {
+		let ele = this._element.querySelector<HTMLElement>(`ol[data-team-id='${teamId}']`);
+
+		return ele;
+	}
+
+	/**
 	 * Moves a player between teams when a "team selection button" is click on a player.
 	 * @param button - Team button that was clicked (Colours, Whites or Bench)
 	 * @param player - Player that was clicked to be moved
 	 */
-	public switchTeams(targetTeamId: string, player: Player): void {
+	protected switchTeams(targetTeamId: string, player: Player): void {
 		// find the team list we're moving to
 		let targetTeam = this.FindTeam(targetTeamId);
 
@@ -90,28 +110,7 @@ class SidePickerController extends Controller {
 			player: player,
 			targetTeamId: targetTeamId
 		});
-	}
-
-	
-	/**
-	 * Convenience function to find a player, based on their [data] identifier
-	 * @param playerId Id of the player
-	 */
-	public FindPlayer(playerId: number | string): HTMLElement {
-		let ele: HTMLElement = this._element.querySelector(`[data-player-id='${playerId}']`);
-
-		return ele;
-	}
-
-	/**
-	 * Convenience function to find a team section, based on it's [data] identifier
-	 * @param teamId - Id of the team div
-	 */
-	public FindTeam(teamId: number | string): HTMLElement {
-		let ele = this._element.querySelector<HTMLElement>(`ol[data-team-id='${teamId}']`);
-
-		return ele;
-	}
+	} // switchTeams
 
 } // SidePickerController
 
